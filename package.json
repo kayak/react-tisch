@@ -1,0 +1,52 @@
+{
+  "name": "react-tisch",
+  "version": "1.0.0",
+  "description": "Simple react component to display, filter and sort paginated tables based on react-bootstrap.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "webpack --config webpack.config.js",
+    "build:watch": "webpack --config webpack.config.js --watch --progress",
+    "test": "mocha-webpack",
+    "test:debug": "node $NODE_DEBUG_OPTION --expose_debug_as=v8debug ./node_modules/mocha-webpack/bin/mocha-webpack",
+    "test:watch": "mocha-webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kayak/react-tisch.git"
+  },
+  "keywords": [
+    "react",
+    "bootstrap",
+    "table",
+    "react-component"
+  ],
+  "author": "Remi Koenig",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kayak/react-tisch/issues"
+  },
+  "homepage": "https://github.com/kayak/react-tisch#readme",
+  "dependencies": {
+    "react": "^15.3.0",
+    "react-bootstrap": "^0.30.2",
+    "react-dom": "^15.3.0"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-class-properties": "^6.11.5",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "babel-register": "^6.11.6",
+    "chai": "^3.5.0",
+    "enzyme": "^2.4.1",
+    "jsdom": "^9.4.2",
+    "mocha": "^3.0.2",
+    "mocha-webpack": "^0.6.0",
+    "react-addons-test-utils": "^15.3.0",
+    "webpack": "^1.13.1",
+    "webpack-node-externals": "^1.3.3"
+  }
+}
