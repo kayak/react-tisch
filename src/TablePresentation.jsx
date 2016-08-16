@@ -3,6 +3,7 @@ import {Table, Glyphicon, Pagination, FormControl, Col, Row, Grid} from "react-b
 
 import Filter from "./Filter";
 import Header from "./Header";
+import Body from "./Body";
 
 
 class TablePresentation extends React.Component {
@@ -51,23 +52,9 @@ class TablePresentation extends React.Component {
         return children.map(this.filter.bind(this))
     }
 
-    dataCell(row, column, i) {
-        let fn = column.props.value;
-        return <td key={i}>{fn ? fn(row) : ''}</td>
-    }
-
-    dataRow(row, i) {
-        return <tr key={i}>{this.props.children.map((column, i) => this.dataCell(row, column, i))}</tr>;
-    }
-
-    dataRows() {
-        return this.props.visibleRows.map(this.dataRow.bind(this))
-    }
-
     render() {
         let filters = this.filters(),
-            dataRows = this.dataRows(),
-            {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort} = this.props,
+            {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows} = this.props,
             columns = this.props.children;
 
         return (
@@ -109,9 +96,9 @@ class TablePresentation extends React.Component {
                                 {filters}
                             </tr>
                             </thead>
-                            <tbody>
-                            {dataRows}
-                            </tbody>
+                            <Body
+                                visibleRows={visibleRows}
+                                columns={columns}/>
                         </Table>
                     </Col>
                 </Row>
