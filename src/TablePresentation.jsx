@@ -2,6 +2,7 @@ import React from "react";
 import {Table, Glyphicon, Pagination, FormControl, Col, Row, Grid} from "react-bootstrap";
 
 import Filter from "./Filter";
+import Header from "./Header";
 
 
 class TablePresentation extends React.Component {
@@ -63,26 +64,11 @@ class TablePresentation extends React.Component {
         return this.props.visibleRows.map(this.dataRow.bind(this))
     }
 
-    toggleSort(columnIndex) {
-        let sortOrder = columnIndex === this.props.sortColumn ? -this.props.sortOrder : 1;
-        this.props.onSort(columnIndex, sortOrder);
-    }
-
-    header() {
-        let {children} = this.props;
-        return children.map((child, i) => React.cloneElement(child, {
-            key: i,
-            onToggleSort: () => this.toggleSort(i),
-            sortOrder: this.props.sortColumn === i ? this.props.sortOrder : 0,
-            ...child.props
-        }));
-    }
-
     render() {
-        let header = this.header(),
-            filters = this.filters(),
+        let filters = this.filters(),
             dataRows = this.dataRows(),
-            {pageCount, activePage, onPageSelect, searchText} = this.props;
+            {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort} = this.props,
+            columns = this.props.children;
 
         return (
             <Grid className="form-inline">
@@ -114,9 +100,11 @@ class TablePresentation extends React.Component {
                         <Table className="table text-center table-condensed table-hover" cellSpacing="0"
                                id="data-table">
                             <thead>
-                            <tr>
-                                {header}
-                            </tr>
+                            <Header
+                                onSort={onSort}
+                                sortColumn={sortColumn}
+                                sortOrder={sortOrder}
+                                columns={columns}/>
                             <tr>
                                 {filters}
                             </tr>
