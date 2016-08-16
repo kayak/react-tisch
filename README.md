@@ -5,7 +5,7 @@ can use custom react components as the table's cells!
 
 ## Example
 
-See the [demo](http://kayak.github.io/react-tisch/example/index.html).
+See the [demo](http://kayak.github.io/react-tisch/examples/index.html).
 
 ```js
 import {Table, Column} from ReactTisch;
