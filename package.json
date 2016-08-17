@@ -1,6 +1,6 @@
 {
   "name": "react-tisch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple react component to display, filter and sort paginated tables based on react-bootstrap.",
   "main": "./dist/react-tisch.js",
   "scripts": {
