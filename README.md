@@ -1,5 +1,6 @@
 # react-tisch
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f65c5b755f6d499a883e293332da2da6)](https://www.codacy.com/app/remi-k2620/react-tisch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kayak/react-tisch&amp;utm_campaign=Badge_Grade)
 [![David](https://img.shields.io/david/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
 [![David](https://img.shields.io/david/dev/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
 [![David](https://img.shields.io/david/peer/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
