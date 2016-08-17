@@ -1,7 +1,6 @@
-import React from "react"
-import ReactDOM from "react-dom"
-
-import TablePresentation from "./TablePresentation"
+import React from "react";
+import ReactDOM from "react-dom";
+import TablePresentation from "./TablePresentation";
 
 
 function componentToText(component) {
@@ -22,7 +21,6 @@ function getRawCellValue(column, row) {
     }
     return null;
 }
-
 
 
 class TableController extends React.Component {
@@ -93,7 +91,7 @@ class TableController extends React.Component {
             searchWords = searchText.toLowerCase().split(/\s+/g),
             rowWords = valuesByRow[rowIndex].join(" ").toLowerCase().split(/\s+/g);
 
-        for (let j=0; j<searchWords.length; j++) {
+        for (let j = 0; j < searchWords.length; j++) {
             let searchWord = searchWords[j],
                 i;
             for (i = 0; i < rowWords.length; i++) {
@@ -161,13 +159,13 @@ class TableController extends React.Component {
         this.setState({
             sortColumn: sortColumn,
             sortOrder: sortOrder
-        })
+        });
     }
 
     onFilter(selectedFilters) {
         this.setState({
             selectedFilters: selectedFilters
-        })
+        });
     }
 
     onPageSelect(activePage) {
@@ -200,7 +198,7 @@ class TableController extends React.Component {
             >
                 {this.props.children}
             </TablePresentation>
-        )
+        );
     }
 }
 

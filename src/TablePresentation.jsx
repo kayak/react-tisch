@@ -49,7 +49,7 @@ class TablePresentation extends React.Component {
 
     filters() {
         let {children} = this.props;
-        return children.map(this.filter.bind(this))
+        return children.map(this.filter.bind(this));
     }
 
     render() {
@@ -122,7 +122,7 @@ class TablePresentation extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-        )
+        );
     }
 }
 
