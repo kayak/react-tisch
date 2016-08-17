@@ -1,5 +1,9 @@
 # react-tisch
 
+[![David](https://img.shields.io/david/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
+[![David](https://img.shields.io/david/dev/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
+[![David](https://img.shields.io/david/peer/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
+
 Simple table component for react and react-bootstrap. It supports filtering, searching, ordering, pagination, and you
 can use custom react components as the table's cells!
 
