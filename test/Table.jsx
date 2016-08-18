@@ -8,6 +8,7 @@ import {mount} from "enzyme";
 const sampleData = [
     {
         "name": "Ida Roach",
+        "age": 31,
         "eyeColor": "blue",
         "tags": [
             "magna",
@@ -19,7 +20,8 @@ const sampleData = [
     },
     {
         "name": "Dillon Andrews",
-        "eyeColor": "brown",
+        "age": 33,
+        "eyeColor": "green",
         "tags": [
             "aliqua",
             "velit",
@@ -29,14 +31,14 @@ const sampleData = [
     },
     {
         "name": "Bradshaw Mason",
-        "eyeColor": "green",
+        "age": 22,
+        "eyeColor": "brown",
         "tags": [
             "reprehenderit",
             "et"
         ]
     },
 ];
-
 
 const EyeColor = function ({eyeColor}) {
     return <Glyphicon glyph="eye-open" style={{color: eyeColor}}/>;
@@ -50,9 +52,15 @@ const Tags = function ({tags}) {
 const testTable =
     <Table data={sampleData}>
         <Column value={row => row.name}>Name</Column>
+        <Column value={row => row.age}>Age</Column>
         <Column filter value={EyeColor} rawValue={row => row.eyeColor}>Eye color</Column>
         <Column value={Tags}>Tags</Column>
     </Table>;
+
+
+function getColumnValues(table, columnIndex) {
+    return table.find(Body.Row).map(row => row.find(Body.Cell).at(columnIndex).text());
+}
 
 
 describe('<Table/>', () => {
@@ -62,9 +70,9 @@ describe('<Table/>', () => {
         expect(wrapper.find('table')).to.have.length(1);
     });
 
-    it("has three columns", function() {
+    it("has four columns", function() {
         const wrapper = mount(testTable);
-        expect(wrapper.find(Column)).to.have.length(3);
+        expect(wrapper.find(Column)).to.have.length(4);
     });
 
     it("has three rows", function() {
@@ -72,9 +80,53 @@ describe('<Table/>', () => {
         expect(wrapper.find(Body.Row)).to.have.length(3);
     });
 
-    it("has nine cells", function() {
+    it("has twelve cells", function() {
         const wrapper = mount(testTable);
-        expect(wrapper.find(Body.Cell)).to.have.length(9);
+        expect(wrapper.find(Body.Cell)).to.have.length(12);
+    });
+
+    describe("default order", function() {
+        const wrapper = mount(testTable);
+
+        it("has 1st column sorted", function() {
+            const firstColumn = getColumnValues(wrapper, 0);
+            expect(firstColumn).to.eql(['Bradshaw Mason', 'Dillon Andrews', 'Ida Roach']);
+        });
+
+        it("has the 2nd column not sorted", function() {
+            const secondColumn = getColumnValues(wrapper, 1);
+            expect(secondColumn).to.eql(["22", "33", "31"]);
+        });
+    });
+
+    describe("1st column reverse sort", function() {
+        const wrapper = mount(testTable);
+        wrapper.find(Column).at(0).simulate('click');
+
+        it("has the 1st column reverse sorted", function() {
+            const firstColumn = getColumnValues(wrapper, 0);
+            expect(firstColumn).to.eql(['Ida Roach', 'Dillon Andrews', 'Bradshaw Mason']);
+        });
+
+        it("has the 2nd column not sorted", function() {
+            const secondColumn = getColumnValues(wrapper, 1);
+            expect(secondColumn).to.eql(["31", "33", "22"]);
+        });
+    });
+
+    describe("2nd column sort", function() {
+        const wrapper = mount(testTable);
+        wrapper.find(Column).at(1).simulate('click');
+
+        it("has the 1st column not sorted", function() {
+            const firstColumn = getColumnValues(wrapper, 0);
+            expect(firstColumn).to.eql(['Bradshaw Mason', 'Ida Roach', 'Dillon Andrews']);
+        });
+
+        it("has the 2nd column sorted", function() {
+            const secondColumn = getColumnValues(wrapper, 1);
+            expect(secondColumn).to.eql(["22", "31", "33"]);
+        });
     });
 
 });
