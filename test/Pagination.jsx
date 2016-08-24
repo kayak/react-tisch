@@ -20,7 +20,6 @@ describe("Multi page <Table/>", () => {
     const testTable =
         <Table data={longSampleData}>
             <Column value={row => row}>Id</Column>
-            <Column value={row => row}>Id</Column>
         </Table>;
 
     it("default pagination", function () {

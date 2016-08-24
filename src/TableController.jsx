@@ -38,7 +38,7 @@ class TableController extends React.Component {
 
     static propTypes = {
         data: React.PropTypes.array,
-        children: React.PropTypes.array
+        children: React.PropTypes.node.isRequired
     };
 
     setData(data) {
@@ -48,7 +48,7 @@ class TableController extends React.Component {
 
         // Precompute value representations that are convenient for sorting and filtering
 
-        let columns = this.props.children,
+        let columns = React.Children.toArray(this.props.children),
             valuesByColumn = columns.map(column => []),
             uniqueValues = columns.map(column => Object()),
             valuesByRow;

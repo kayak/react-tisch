@@ -49,13 +49,13 @@ class TablePresentation extends React.Component {
 
     filters() {
         let {children} = this.props;
-        return children.map(this.filter.bind(this));
+        return React.Children.map(children, this.filter.bind(this));
     }
 
     render() {
         let filters = this.filters(),
             {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows} = this.props,
-            columns = this.props.children;
+            columns = React.Children.toArray(this.props.children);
 
         return (
             <Grid className="form-inline">
