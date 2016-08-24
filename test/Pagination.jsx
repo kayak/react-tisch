@@ -1,8 +1,8 @@
 import {Table, Column} from "../src";
+import Body from "../src/Body";
 import React from "react";
 import {expect} from "chai";
 import {mount} from "enzyme";
-
 import {getColumnValues} from "./test_utils";
 
 
@@ -16,7 +16,11 @@ describe("Multi page <Table/>", () => {
     }
 
     function clickPaginationButton(table, buttonText) {
-        return table.find('PaginationButton').findWhere(el => el.text() === buttonText).find('a').simulate('click');
+        table.find('PaginationButton').findWhere(el => el.text() === buttonText).find('a').simulate('click');
+    }
+
+    function selectItemsPerPage(table, itemsPerPage) {
+        table.find('.select-entry-count').simulate('change', {target: {value: itemsPerPage.toString()}});
     }
 
     const longSampleData = range(0, 300);
@@ -56,6 +60,24 @@ describe("Multi page <Table/>", () => {
         clickPaginationButton(wrapper, '2');
         const text = wrapper.find('.shown-entries').text();
         expect(text).to.equal("Showing 26 to 50 of 300 entries");
+    });
+
+    it("shows 25 items per page by default", function () {
+        const wrapper = mount(testTable);
+        expect(wrapper.find(Body.Row)).to.have.length(25);
+    });
+
+    it("can show 10 items per page", function () {
+        const wrapper = mount(testTable);
+        selectItemsPerPage(wrapper, 10);
+        expect(wrapper.find(Body.Row)).to.have.length(10);
+    });
+
+    it("shows correct entry count with 10 items per page", function () {
+        const wrapper = mount(testTable);
+        selectItemsPerPage(wrapper, 10);
+        const text = wrapper.find('.shown-entries').text();
+        expect(text).to.equal("Showing 1 to 10 of 300 entries");
     });
 
 });

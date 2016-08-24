@@ -39,6 +39,10 @@ class TablePresentation extends React.Component {
         this.props.onSearch(event.target.value);
     }
 
+    onItemsPerPageSelect(event) {
+        this.props.onItemsPerPageSelect(parseInt(event.target.value));
+    }
+
     filter(column, i) {
         let filterOptions = this.props.filterOptions[i] || [];
 
@@ -66,7 +70,10 @@ class TablePresentation extends React.Component {
                 <Row>
                     <Col md={6}>
                         Show{' '}
-                        <FormControl componentClass="select" placeholder="select" className="input-sm">
+                        <FormControl componentClass="select" placeholder="select" defaultValue="25"
+                                     className="input-sm select-entry-count"
+                                     onChange={this.onItemsPerPageSelect.bind(this)}>
+                            <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
