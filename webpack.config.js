@@ -15,9 +15,24 @@ var config = {
         umdNamedDefine: true
     },
     externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'react-bootstrap': 'ReactBootstrap'
+        'react': {
+            root: 'React',
+            commonjs2: 'react',
+            commonjs: 'react',
+            amd: 'react'
+        },
+        'react-dom': {
+            root: 'ReactDOM',
+            commonjs2: 'react-dom',
+            commonjs: 'react-dom',
+            amd: 'react-dom'
+        },
+        'react-bootstrap': {
+            root: 'ReactBootstrap',
+            commonjs2: 'react-bootstrap',
+            commonjs: 'react-bootstrap',
+            amd: 'react-bootstrap'
+        }
     },
     module: {
         loaders: [

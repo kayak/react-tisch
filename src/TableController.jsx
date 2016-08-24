@@ -1,7 +1,6 @@
-import React from "react"
-import ReactDOM from "react-dom"
-
-import TablePresentation from "./TablePresentation"
+import React from "react";
+import ReactDOM from "react-dom";
+import TablePresentation from "./TablePresentation";
 
 
 function componentToText(component) {
@@ -24,7 +23,6 @@ function getRawCellValue(column, row) {
 }
 
 
-
 class TableController extends React.Component {
     state = {
         valuesByColumn: [],
@@ -40,7 +38,7 @@ class TableController extends React.Component {
 
     static propTypes = {
         data: React.PropTypes.array,
-        children: React.PropTypes.array
+        children: React.PropTypes.node.isRequired
     };
 
     setData(data) {
@@ -50,9 +48,9 @@ class TableController extends React.Component {
 
         // Precompute value representations that are convenient for sorting and filtering
 
-        let columns = this.props.children,
-            valuesByColumn = columns.map(column => []),
-            uniqueValues = columns.map(column => Object()),
+        let columns = React.Children.toArray(this.props.children),
+            valuesByColumn = columns.map(() => []),
+            uniqueValues = columns.map(() => Object()),
             valuesByRow;
 
         valuesByRow = data.map(function (row, i) {
@@ -93,12 +91,12 @@ class TableController extends React.Component {
             searchWords = searchText.toLowerCase().split(/\s+/g),
             rowWords = valuesByRow[rowIndex].join(" ").toLowerCase().split(/\s+/g);
 
-        for (let j=0; j<searchWords.length; j++) {
+        for (let j = 0; j < searchWords.length; j++) {
             let searchWord = searchWords[j],
                 i;
             for (i = 0; i < rowWords.length; i++) {
                 if (rowWords[i].indexOf(searchWord) >= 0) {
-                    break
+                    break;
                 }
             }
             if (i === rowWords.length) {
@@ -158,24 +156,23 @@ class TableController extends React.Component {
     }
 
     onSort(sortColumn, sortOrder) {
-        this.setState({
-            sortColumn: sortColumn,
-            sortOrder: sortOrder
-        })
+        this.setState({sortColumn, sortOrder});
     }
 
     onFilter(selectedFilters) {
-        this.setState({
-            selectedFilters: selectedFilters
-        })
+        this.setState({selectedFilters});
     }
 
     onPageSelect(activePage) {
         this.setState({activePage});
     }
 
-    onSearch(value) {
-        this.setState({searchText: value});
+    onSearch(searchText) {
+        this.setState({searchText});
+    }
+
+    onItemsPerPageSelect(itemsPerPage) {
+        this.setState({itemsPerPage});
     }
 
     render() {
@@ -190,17 +187,20 @@ class TableController extends React.Component {
                 activePage={this.state.activePage}
                 searchText={this.state.searchText}
                 pageCount={this.pageCount(sortedAndFilteredRowIndexes.length)}
+                itemsPerPage={this.state.itemsPerPage}
+                itemCount={this.props.data.length}
 
                 onSearch={this.onSearch.bind(this)}
                 onSort={this.onSort.bind(this)}
                 onFilter={this.onFilter.bind(this)}
                 onPageSelect={this.onPageSelect.bind(this)}
+                onItemsPerPageSelect={this.onItemsPerPageSelect.bind(this)}
 
                 visibleRows={this.paginatedRows(sortedAndFilteredRowIndexes)}
             >
                 {this.props.children}
             </TablePresentation>
-        )
+        );
     }
 }
 

@@ -1,11 +1,17 @@
 # react-tisch
 
+[![Build Status](https://travis-ci.org/kayak/react-tisch.png?branch=master)](https://travis-ci.org/kayak/react-tisch)
+[![Coverage Status](https://coveralls.io/repos/github/kayak/react-tisch/badge.svg?branch=master)](https://coveralls.io/github/kayak/react-tisch?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f65c5b755f6d499a883e293332da2da6)](https://www.codacy.com/app/remi-k2620/react-tisch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kayak/react-tisch&amp;utm_campaign=Badge_Grade)
+[![David](https://img.shields.io/david/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
+[![David](https://img.shields.io/david/dev/kayak/react-tisch.svg)](https://david-dm.org/kayak/react-tisch)
+
 Simple table component for react and react-bootstrap. It supports filtering, searching, ordering, pagination, and you
 can use custom react components as the table's cells!
 
 ## Example
 
-See the [demo](http://kayak.github.io/react-tisch/example/index.html).
+See the [demo](http://kayak.github.io/react-tisch/examples/index.html).
 
 ```js
 import {Table, Column} from ReactTisch;
