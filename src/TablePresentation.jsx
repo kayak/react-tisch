@@ -1,5 +1,5 @@
 import React from "react";
-import {Table, Glyphicon, Pagination, FormControl, Col, Row, Grid} from "react-bootstrap";
+import {Table, Pagination, FormControl, Col, Row, Grid} from "react-bootstrap";
 
 import Filter from "./Filter";
 import Header from "./Header";

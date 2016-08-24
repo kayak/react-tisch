@@ -49,8 +49,8 @@ class TableController extends React.Component {
         // Precompute value representations that are convenient for sorting and filtering
 
         let columns = React.Children.toArray(this.props.children),
-            valuesByColumn = columns.map(column => []),
-            uniqueValues = columns.map(column => Object()),
+            valuesByColumn = columns.map(() => []),
+            uniqueValues = columns.map(() => Object()),
             valuesByRow;
 
         valuesByRow = data.map(function (row, i) {
