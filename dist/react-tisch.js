@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"), require("ReactDOM"), require("ReactBootstrap"));
+		module.exports = factory(require("react"), require("react-dom"), require("react-bootstrap"));
 	else if(typeof define === 'function' && define.amd)
-		define("ReactTisch", ["React", "ReactDOM", "ReactBootstrap"], factory);
+		define("ReactTisch", ["react", "react-dom", "react-bootstrap"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactTisch"] = factory(require("React"), require("ReactDOM"), require("ReactBootstrap"));
+		exports["ReactTisch"] = factory(require("react"), require("react-dom"), require("react-bootstrap"));
 	else
 		root["ReactTisch"] = factory(root["React"], root["ReactDOM"], root["ReactBootstrap"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__) {
@@ -65,7 +65,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _TableController2 = _interopRequireDefault(_TableController);
 	
-	var _Column = __webpack_require__(7);
+	var _Column = __webpack_require__(9);
 	
 	var _Column2 = _interopRequireDefault(_Column);
 	
@@ -160,11 +160,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Precompute value representations that are convenient for sorting and filtering
 	
-	            var columns = this.props.children,
-	                valuesByColumn = columns.map(function (column) {
+	            var columns = _react2.default.Children.toArray(this.props.children),
+	                valuesByColumn = columns.map(function () {
 	                return [];
 	            }),
-	                uniqueValues = columns.map(function (column) {
+	                uniqueValues = columns.map(function () {
 	                return Object();
 	            }),
 	                valuesByRow = void 0;
@@ -300,17 +300,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "onSort",
 	        value: function onSort(sortColumn, sortOrder) {
-	            this.setState({
-	                sortColumn: sortColumn,
-	                sortOrder: sortOrder
-	            });
+	            this.setState({ sortColumn: sortColumn, sortOrder: sortOrder });
 	        }
 	    }, {
 	        key: "onFilter",
 	        value: function onFilter(selectedFilters) {
-	            this.setState({
-	                selectedFilters: selectedFilters
-	            });
+	            this.setState({ selectedFilters: selectedFilters });
 	        }
 	    }, {
 	        key: "onPageSelect",
@@ -319,8 +314,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: "onSearch",
-	        value: function onSearch(value) {
-	            this.setState({ searchText: value });
+	        value: function onSearch(searchText) {
+	            this.setState({ searchText: searchText });
+	        }
+	    }, {
+	        key: "onItemsPerPageSelect",
+	        value: function onItemsPerPageSelect(itemsPerPage) {
+	            this.setState({ itemsPerPage: itemsPerPage });
 	        }
 	    }, {
 	        key: "render",
@@ -337,11 +337,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    activePage: this.state.activePage,
 	                    searchText: this.state.searchText,
 	                    pageCount: this.pageCount(sortedAndFilteredRowIndexes.length),
+	                    itemsPerPage: this.state.itemsPerPage,
+	                    itemCount: this.props.data.length,
 	
 	                    onSearch: this.onSearch.bind(this),
 	                    onSort: this.onSort.bind(this),
 	                    onFilter: this.onFilter.bind(this),
 	                    onPageSelect: this.onPageSelect.bind(this),
+	                    onItemsPerPageSelect: this.onItemsPerPageSelect.bind(this),
 	
 	                    visibleRows: this.paginatedRows(sortedAndFilteredRowIndexes)
 	                },
@@ -355,7 +358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	TableController.propTypes = {
 	    data: _react2.default.PropTypes.array,
-	    children: _react2.default.PropTypes.array
+	    children: _react2.default.PropTypes.node.isRequired
 	};
 	exports.default = TableController;
 
@@ -381,8 +384,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
@@ -394,6 +395,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _Filter = __webpack_require__(6);
 	
 	var _Filter2 = _interopRequireDefault(_Filter);
+	
+	var _Header = __webpack_require__(7);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _Body = __webpack_require__(8);
+	
+	var _Body2 = _interopRequireDefault(_Body);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -425,6 +434,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.props.onSearch(event.target.value);
 	        }
 	    }, {
+	        key: "onItemsPerPageSelect",
+	        value: function onItemsPerPageSelect(event) {
+	            this.props.onItemsPerPageSelect(parseInt(event.target.value));
+	        }
+	    }, {
 	        key: "filter",
 	        value: function filter(column, i) {
 	            var _this2 = this;
@@ -445,71 +459,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function filters() {
 	            var children = this.props.children;
 	
-	            return children.map(this.filter.bind(this));
-	        }
-	    }, {
-	        key: "dataCell",
-	        value: function dataCell(row, column, i) {
-	            var fn = column.props.value;
-	            return _react2.default.createElement(
-	                "td",
-	                { key: i },
-	                fn ? fn(row) : ''
-	            );
-	        }
-	    }, {
-	        key: "dataRow",
-	        value: function dataRow(row, i) {
-	            var _this3 = this;
-	
-	            return _react2.default.createElement(
-	                "tr",
-	                { key: i },
-	                this.props.children.map(function (column, i) {
-	                    return _this3.dataCell(row, column, i);
-	                })
-	            );
-	        }
-	    }, {
-	        key: "dataRows",
-	        value: function dataRows() {
-	            return this.props.visibleRows.map(this.dataRow.bind(this));
-	        }
-	    }, {
-	        key: "toggleSort",
-	        value: function toggleSort(columnIndex) {
-	            var sortOrder = columnIndex === this.props.sortColumn ? -this.props.sortOrder : 1;
-	            this.props.onSort(columnIndex, sortOrder);
-	        }
-	    }, {
-	        key: "header",
-	        value: function header() {
-	            var _this4 = this;
-	
-	            var children = this.props.children;
-	
-	            return children.map(function (child, i) {
-	                return _react2.default.cloneElement(child, _extends({
-	                    key: i,
-	                    onToggleSort: function onToggleSort() {
-	                        return _this4.toggleSort(i);
-	                    },
-	                    sortOrder: _this4.props.sortColumn === i ? _this4.props.sortOrder : 0
-	                }, child.props));
-	            });
+	            return _react2.default.Children.map(children, this.filter.bind(this));
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var header = this.header();
 	            var filters = this.filters();
-	            var dataRows = this.dataRows();
 	            var _props = this.props;
 	            var pageCount = _props.pageCount;
 	            var activePage = _props.activePage;
 	            var onPageSelect = _props.onPageSelect;
 	            var searchText = _props.searchText;
-	
+	            var sortColumn = _props.sortColumn;
+	            var sortOrder = _props.sortOrder;
+	            var onSort = _props.onSort;
+	            var visibleRows = _props.visibleRows;
+	            var itemsPerPage = _props.itemsPerPage;
+	            var itemCount = _props.itemCount;
+	            var columns = _react2.default.Children.toArray(this.props.children);
 	
 	            return _react2.default.createElement(
 	                _reactBootstrap.Grid,
@@ -524,7 +491,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        ' ',
 	                        _react2.default.createElement(
 	                            _reactBootstrap.FormControl,
-	                            { componentClass: "select", placeholder: "select", className: "input-sm" },
+	                            { componentClass: "select", placeholder: "select", defaultValue: "25",
+	                                className: "input-sm select-entry-count",
+	                                onChange: this.onItemsPerPageSelect.bind(this) },
+	                            _react2.default.createElement(
+	                                "option",
+	                                { value: "10" },
+	                                "10"
+	                            ),
 	                            _react2.default.createElement(
 	                                "option",
 	                                { value: "25" },
@@ -575,22 +549,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            _react2.default.createElement(
 	                                "thead",
 	                                null,
-	                                _react2.default.createElement(
-	                                    "tr",
-	                                    null,
-	                                    header
-	                                ),
+	                                _react2.default.createElement(_Header2.default, {
+	                                    onSort: onSort,
+	                                    sortColumn: sortColumn,
+	                                    sortOrder: sortOrder,
+	                                    columns: columns }),
 	                                _react2.default.createElement(
 	                                    "tr",
 	                                    null,
 	                                    filters
 	                                )
 	                            ),
-	                            _react2.default.createElement(
-	                                "tbody",
-	                                null,
-	                                dataRows
-	                            )
+	                            _react2.default.createElement(_Body2.default, {
+	                                visibleRows: visibleRows,
+	                                columns: columns })
 	                        )
 	                    )
 	                ),
@@ -599,8 +571,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    null,
 	                    _react2.default.createElement(
 	                        _reactBootstrap.Col,
-	                        { md: 6 },
-	                        "Showing x to y of z entries"
+	                        { md: 6, className: "shown-entries" },
+	                        "Showing ",
+	                        (activePage - 1) * itemsPerPage + 1,
+	                        " to ",
+	                        activePage * itemsPerPage,
+	                        " of ",
+	                        itemCount,
+	                        " entries"
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactBootstrap.Col,
@@ -637,13 +615,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    sortOrder: _react2.default.PropTypes.number,
 	    selectedFilters: _react2.default.PropTypes.array,
 	    searchText: _react2.default.PropTypes.string,
+	    itemsPerPage: _react2.default.PropTypes.number,
+	    itemCount: _react2.default.PropTypes.number,
 	
 	    visibleRows: _react2.default.PropTypes.array,
 	
 	    onSearch: _react2.default.PropTypes.func,
 	    onPageSelect: _react2.default.PropTypes.func,
 	    onSort: _react2.default.PropTypes.func,
-	    onFilter: _react2.default.PropTypes.func
+	    onFilter: _react2.default.PropTypes.func,
+	    onItemsPerPageSelect: _react2.default.PropTypes.func
 	};
 	exports.default = TablePresentation;
 
@@ -695,6 +676,136 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Header = function (_React$Component) {
+	    _inherits(Header, _React$Component);
+	
+	    function Header() {
+	        _classCallCheck(this, Header);
+	
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
+	    }
+	
+	    _createClass(Header, [{
+	        key: "onToggleSort",
+	        value: function onToggleSort(columnIndex) {
+	            var sortOrder = columnIndex === this.props.sortColumn ? -this.props.sortOrder : 1;
+	            this.props.onSort(columnIndex, sortOrder);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+	
+	            var _props = this.props;
+	            var columns = _props.columns;
+	            var sortColumn = _props.sortColumn;
+	            var sortOrder = _props.sortOrder;
+	
+	
+	            return _react2.default.createElement(
+	                "tr",
+	                null,
+	                columns.map(function (child, i) {
+	                    return _react2.default.cloneElement(child, _extends({
+	                        key: i,
+	                        onToggleSort: function onToggleSort() {
+	                            return _this2.onToggleSort(i);
+	                        },
+	                        sortOrder: sortColumn === i ? sortOrder : 0
+	                    }, child.props));
+	                })
+	            );
+	        }
+	    }]);
+	
+	    return Header;
+	}(_react2.default.Component);
+	
+	exports.default = Header;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Cell = function Cell(_ref) {
+	    var row = _ref.row;
+	    var column = _ref.column;
+	
+	    var fn = column.props.value;
+	    return _react2.default.createElement(
+	        "td",
+	        null,
+	        fn ? fn(row) : ''
+	    );
+	};
+	
+	var Row = function Row(_ref2) {
+	    var columns = _ref2.columns;
+	    var row = _ref2.row;
+	    return _react2.default.createElement(
+	        "tr",
+	        null,
+	        columns.map(function (column, i) {
+	            return _react2.default.createElement(Cell, { row: row, column: column, key: i });
+	        })
+	    );
+	};
+	
+	var Body = function Body(_ref3) {
+	    var visibleRows = _ref3.visibleRows;
+	    var columns = _ref3.columns;
+	    return _react2.default.createElement(
+	        "tbody",
+	        null,
+	        visibleRows.map(function (row, i) {
+	            return _react2.default.createElement(Row, { key: i, row: row, columns: columns });
+	        })
+	    );
+	};
+	
+	Body.Row = Row;
+	Body.Cell = Cell;
+	
+	exports.default = Body;
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
