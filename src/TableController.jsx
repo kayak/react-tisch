@@ -96,7 +96,7 @@ class TableController extends React.Component {
                 i;
             for (i = 0; i < rowWords.length; i++) {
                 if (rowWords[i].indexOf(searchWord) >= 0) {
-                    break
+                    break;
                 }
             }
             if (i === rowWords.length) {
@@ -156,24 +156,23 @@ class TableController extends React.Component {
     }
 
     onSort(sortColumn, sortOrder) {
-        this.setState({
-            sortColumn: sortColumn,
-            sortOrder: sortOrder
-        });
+        this.setState({sortColumn, sortOrder});
     }
 
     onFilter(selectedFilters) {
-        this.setState({
-            selectedFilters: selectedFilters
-        });
+        this.setState({selectedFilters});
     }
 
     onPageSelect(activePage) {
         this.setState({activePage});
     }
 
-    onSearch(value) {
-        this.setState({searchText: value});
+    onSearch(searchText) {
+        this.setState({searchText});
+    }
+
+    onItemsPerPageSelect(itemsPerPage) {
+        this.setState({itemsPerPage});
     }
 
     render() {
@@ -188,11 +187,14 @@ class TableController extends React.Component {
                 activePage={this.state.activePage}
                 searchText={this.state.searchText}
                 pageCount={this.pageCount(sortedAndFilteredRowIndexes.length)}
+                itemsPerPage={this.state.itemsPerPage}
+                itemCount={this.props.data.length}
 
                 onSearch={this.onSearch.bind(this)}
                 onSort={this.onSort.bind(this)}
                 onFilter={this.onFilter.bind(this)}
                 onPageSelect={this.onPageSelect.bind(this)}
+                onItemsPerPageSelect={this.onItemsPerPageSelect.bind(this)}
 
                 visibleRows={this.paginatedRows(sortedAndFilteredRowIndexes)}
             >

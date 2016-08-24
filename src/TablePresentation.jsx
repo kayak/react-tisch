@@ -17,13 +17,16 @@ class TablePresentation extends React.Component {
         sortOrder: React.PropTypes.number,
         selectedFilters: React.PropTypes.array,
         searchText: React.PropTypes.string,
+        itemsPerPage: React.PropTypes.number,
+        itemCount: React.PropTypes.number,
 
         visibleRows: React.PropTypes.array,
 
         onSearch: React.PropTypes.func,
         onPageSelect: React.PropTypes.func,
         onSort: React.PropTypes.func,
-        onFilter: React.PropTypes.func
+        onFilter: React.PropTypes.func,
+        onItemsPerPageSelect: React.PropTypes.func
     };
 
     onFilterChange(event, columnIndex) {
@@ -54,7 +57,8 @@ class TablePresentation extends React.Component {
 
     render() {
         let filters = this.filters(),
-            {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows} = this.props,
+            {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows,
+            itemsPerPage, itemCount} = this.props,
             columns = React.Children.toArray(this.props.children);
 
         return (
@@ -104,8 +108,8 @@ class TablePresentation extends React.Component {
                 </Row>
 
                 <Row>
-                    <Col md={6}>
-                        Showing x to y of z entries
+                    <Col md={6} className="shown-entries">
+                        Showing {(activePage - 1) * itemsPerPage + 1} to {activePage * itemsPerPage} of {itemCount} entries
                     </Col>
                     <Col md={6}>
                         <div className="pull-right">
