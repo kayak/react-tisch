@@ -2,7 +2,7 @@ import React from "react";
 import {Table, Pagination, FormControl, Col, Row, Grid} from "react-bootstrap";
 
 import Filter from "./Filter";
-import Header from "./Header";
+import TableHeader from "./TableHeader";
 import Body from "./Body";
 
 
@@ -19,6 +19,7 @@ class TablePresentation extends React.Component {
         searchText: React.PropTypes.string,
         itemsPerPage: React.PropTypes.number,
         itemCount: React.PropTypes.number,
+        selectedRows: React.PropTypes.array,
 
         visibleRows: React.PropTypes.array,
 
@@ -26,7 +27,8 @@ class TablePresentation extends React.Component {
         onPageSelect: React.PropTypes.func,
         onSort: React.PropTypes.func,
         onFilter: React.PropTypes.func,
-        onItemsPerPageSelect: React.PropTypes.func
+        onItemsPerPageSelect: React.PropTypes.func,
+        onRowSelected: React.PropTypes.func
     };
 
     onFilterChange(event, columnIndex) {
@@ -41,6 +43,14 @@ class TablePresentation extends React.Component {
 
     onItemsPerPageSelect(event) {
         this.props.onItemsPerPageSelect(parseInt(event.target.value));
+    }
+
+    onRowToggle(rowIndex, selected) {
+        let selectedRows = {
+            ...this.props.selectedRows,
+            [rowIndex]: selected
+        };
+        this.props.onRowSelection(selectedRows);
     }
 
     filter(column, i) {
@@ -62,7 +72,7 @@ class TablePresentation extends React.Component {
     render() {
         let filters = this.filters(),
             {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows,
-            itemsPerPage, itemCount} = this.props,
+            itemsPerPage, itemCount, selectedRows} = this.props,
             columns = React.Children.toArray(this.props.children);
 
         return (
@@ -98,7 +108,7 @@ class TablePresentation extends React.Component {
                         <Table className="table text-center table-condensed table-hover" cellSpacing="0"
                                id="data-table">
                             <thead>
-                            <Header
+                            <TableHeader
                                 onSort={onSort}
                                 sortColumn={sortColumn}
                                 sortOrder={sortOrder}
@@ -109,6 +119,8 @@ class TablePresentation extends React.Component {
                             </thead>
                             <Body
                                 visibleRows={visibleRows}
+                                selectedRows={selectedRows}
+                                onRowToggle={this.onRowToggle.bind(this)}
                                 columns={columns}/>
                         </Table>
                     </Col>

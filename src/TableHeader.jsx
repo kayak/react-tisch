@@ -1,6 +1,6 @@
 import React from "react";
 
-class Header extends React.Component {
+class TableHeader extends React.Component {
 
     onToggleSort(columnIndex) {
         let sortOrder = columnIndex === this.props.sortColumn ? -this.props.sortOrder : 1;
@@ -19,4 +19,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default TableHeader;

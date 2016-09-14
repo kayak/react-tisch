@@ -33,7 +33,9 @@ class TableController extends React.Component {
         sortOrder: 1,
         itemsPerPage: 25,
         activePage: 1,
-        searchText: ''
+        searchText: '',
+        selectedRows: {},
+        canSelectRows: false
     };
 
     static propTypes = {
@@ -147,7 +149,10 @@ class TableController extends React.Component {
 
         return sortedAndFilteredRowIndexes
             .slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)
-            .map(rowIndex => data[rowIndex]);
+            .map(rowIndex => ({
+                index: rowIndex,
+                data: data[rowIndex]
+            }));
     }
 
     pageCount(itemCount) {
@@ -175,6 +180,12 @@ class TableController extends React.Component {
         this.setState({itemsPerPage});
     }
 
+    onRowSelection(selectedRows) {
+        if (this.state.canSelectRows) {
+            this.setState({selectedRows});
+        }
+    }
+
     render() {
         let sortedAndFilteredRowIndexes = this.computeSortedAndFilteredRows();
 
@@ -188,6 +199,7 @@ class TableController extends React.Component {
                 searchText={this.state.searchText}
                 pageCount={this.pageCount(sortedAndFilteredRowIndexes.length)}
                 itemsPerPage={this.state.itemsPerPage}
+                selectedRows={this.state.selectedRows}
                 itemCount={this.props.data.length}
 
                 onSearch={this.onSearch.bind(this)}
@@ -195,6 +207,7 @@ class TableController extends React.Component {
                 onFilter={this.onFilter.bind(this)}
                 onPageSelect={this.onPageSelect.bind(this)}
                 onItemsPerPageSelect={this.onItemsPerPageSelect.bind(this)}
+                onRowSelection={this.onRowSelection.bind(this)}
 
                 visibleRows={this.paginatedRows(sortedAndFilteredRowIndexes)}
             >
