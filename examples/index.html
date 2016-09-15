@@ -81,6 +81,33 @@ const Tags = function ({tags}) {
 
     <div id="example"></div>
     <hr>
+
+    <h3>Custom data manager</h3>
+    <p>
+        You can define your own data manager or extend the existing one to change any of the default behaviour. Instead
+        of passing a data prop, simply pass a dataManager prop. It needs to have three methods: getItemCount,
+        getFilterOptions and getVisibleRows. Refer to the documentation for more details.
+    </p>
+
+    <pre><code class="language-jsx">import {Table, Column} from ReactTisch;
+
+const dataManager = {
+    getItemCount: () => 2,
+    getFilterOptions: () => [[]],
+    // Note: getVisibleRows should take into account the state (searchText, selectedFilters, etc). Refer to the
+    // documentation for more details.
+    getVisibleRows: (state) => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+};
+
+&lt;Table dataManager={dataManager}&gt;
+    &lt;Column value={row => row.name}&gt;Name&lt;/Column&gt;
+&lt;/Table&gt;
+</code></pre>
+
+    <hr>
+    <div id="example2"></div>
+    <hr>
+
     <small>Copyright © 2016 KAYAK Germany, GmbH.</small>
 </div>
 
@@ -105,6 +132,19 @@ const Tags = function ({tags}) {
             </Table>,
             document.getElementById('example')
     );
+
+    const dataManager = {
+        getItemCount: () => 2,
+        getFilterOptions: () => [[]],
+        getVisibleRows: (state) => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+    };
+
+    ReactDOM.render(
+            <Table dataManager={dataManager}>
+                <Column value={row => row.name}>Name</Column>
+            </Table>,
+            document.getElementById('example2')
+    )
 </script>
 </body>
 </html>

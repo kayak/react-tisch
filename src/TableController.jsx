@@ -17,23 +17,28 @@ class TableController extends React.Component {
 
     static propTypes = {
         data: React.PropTypes.array,
+        dataManager: React.PropTypes.object,
         children: React.PropTypes.node.isRequired
     };
 
-    setData(data) {
-        let columns = React.Children.toArray(this.props.children);
-
-        this.setState({
-            dataManager: new DataManager(data, columns)
-        });
+    updateStateFromProps(props) {
+        if (props.dataManager) {
+            // Allow passing a custom data manager for e.g. custom filtering or server-side data fetching
+            this.setState({dataManager: props.dataManager});
+        } else if (props.data || !this.state.dataManager) {
+            let columns = React.Children.toArray(this.props.children);
+            this.setState({
+                dataManager: new DataManager(props.data || [], columns)
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setData(nextProps.data);
+        this.updateStateFromProps(nextProps);
     }
 
     componentWillMount() {
-        this.setData(this.props.data);
+        this.updateStateFromProps(this.props);
     }
 
     onSort(sortColumn, sortOrder) {

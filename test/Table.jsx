@@ -62,6 +62,30 @@ describe('Simple <Table/>', () => {
             <Column value={Tags}>Tags</Column>
         </Table>;
 
+    it("can be empty", function() {
+        const wrapper = mount(<Table><Column value={row => row.name}>Name</Column></Table>);
+        expect(wrapper.find(Column)).to.have.length(1);
+    });
+
+    describe("custom data manager", () => {
+        const dataManager = {
+            getItemCount: () => 2,
+            getFilterOptions: () => [[]],
+            getVisibleRows: () => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+        };
+        let testTableWithCustomDataManager = (
+            <Table dataManager={dataManager}>
+                <Column value={row => row.name}>Name</Column>
+            </Table>
+        );
+
+        it("has correct rows", function () {
+            const wrapper = mount(testTableWithCustomDataManager);
+            const firstColumn = getColumnValues(wrapper, 0);
+            expect(firstColumn).to.eql(['Joe', 'Mike']);
+        });
+    });
+
     it("contains table element", function () {
         const wrapper = mount(testTable);
         expect(wrapper.find('table')).to.have.length(1);
