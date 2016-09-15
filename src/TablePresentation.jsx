@@ -19,7 +19,7 @@ class TablePresentation extends React.Component {
         searchText: React.PropTypes.string,
         itemsPerPage: React.PropTypes.number,
         itemCount: React.PropTypes.number,
-        selectedRows: React.PropTypes.array,
+        selectedRows: React.PropTypes.object,
 
         visibleRows: React.PropTypes.array,
 
