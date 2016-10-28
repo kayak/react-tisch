@@ -12,7 +12,8 @@ class TableController extends React.Component {
         activePage: 1,
         searchText: '',
         selectedRows: {},
-        canSelectRows: false
+        canSelectRows: false,
+        forcedRedrawData: null
     };
 
     static propTypes = {
@@ -41,50 +42,67 @@ class TableController extends React.Component {
         this.updateStateFromProps(this.props);
     }
 
+    _setState(newState) {
+        this.setState({
+            forcedRedrawData: null,
+            ...newState
+        });
+    }
+
     onSort(sortColumn, sortOrder) {
-        this.setState({sortColumn, sortOrder});
+        this._setState({sortColumn, sortOrder});
     }
 
     onFilter(selectedFilters) {
-        this.setState({selectedFilters});
+        this._setState({selectedFilters});
     }
 
     onPageSelect(activePage) {
-        this.setState({activePage});
+        this._setState({activePage});
     }
 
     onSearch(searchText) {
-        this.setState({searchText});
+        this._setState({searchText});
     }
 
     onItemsPerPageSelect(itemsPerPage) {
-        this.setState({itemsPerPage});
+        this._setState({itemsPerPage});
     }
 
     onRowSelection(selectedRows) {
         if (this.state.canSelectRows) {
-            this.setState({selectedRows});
+            this._setState({selectedRows});
         }
     }
 
-    pageCount() {
-        let {itemsPerPage, dataManager} = this.state;
-        return Math.ceil(dataManager.getItemCount() / itemsPerPage);
+    pageCount(itemCount) {
+        let {itemsPerPage} = this.state;
+        return Math.ceil(itemCount / itemsPerPage);
+    }
+
+    onDataUpdate(newData) {
+        this.setState({
+            forcedRedrawData: newData
+        });
     }
 
     render() {
+        let data = this.state.forcedRedrawData ||
+            this.state.dataManager.getData(this.state, this.onDataUpdate.bind(this));
+
+
         return (
             <TablePresentation
-                filterOptions={this.state.dataManager.getFilterOptions()}
+                filterOptions={data.filterOptions}
                 sortColumn={this.state.sortColumn}
                 sortOrder={this.state.sortOrder}
                 selectedFilters={this.state.selectedFilters}
                 activePage={this.state.activePage}
                 searchText={this.state.searchText}
-                pageCount={this.pageCount()}
+                pageCount={this.pageCount(data.itemCount)}
                 itemsPerPage={this.state.itemsPerPage}
                 selectedRows={this.state.selectedRows}
-                itemCount={this.state.dataManager.getItemCount()}
+                itemCount={data.itemCount}
 
                 onSearch={this.onSearch.bind(this)}
                 onSort={this.onSort.bind(this)}
@@ -93,7 +111,7 @@ class TableController extends React.Component {
                 onItemsPerPageSelect={this.onItemsPerPageSelect.bind(this)}
                 onRowSelection={this.onRowSelection.bind(this)}
 
-                visibleRows={this.state.dataManager.getVisibleRows(this.state)}
+                visibleRows={data.visibleRows}
             >
                 {this.props.children}
             </TablePresentation>

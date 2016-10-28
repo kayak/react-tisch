@@ -92,11 +92,13 @@ const Tags = function ({tags}) {
     <pre><code class="language-jsx">import {Table, Column} from ReactTisch;
 
 const dataManager = {
-    getItemCount: () => 2,
-    getFilterOptions: () => [[]],
-    // Note: getVisibleRows should take into account the state (searchText, selectedFilters, etc). Refer to the
+    // Note: visibleRows should take into account the state (searchText, selectedFilters, etc). Refer to the
     // documentation for more details.
-    getVisibleRows: (state) => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+    getData: (state) => ({
+        itemCount: 2,
+        filterOptions: [[]],
+        visibleRows: [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+    })
 };
 
 &lt;Table dataManager={dataManager}&gt;
@@ -134,9 +136,11 @@ const dataManager = {
     );
 
     const dataManager = {
-        getItemCount: () => 2,
-        getFilterOptions: () => [[]],
-        getVisibleRows: (state) => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+        getData: (state) => ({
+            itemCount: 2,
+            filterOptions: [[]],
+            visibleRows: [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+        })
     };
 
     ReactDOM.render(

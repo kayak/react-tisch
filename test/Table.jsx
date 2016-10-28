@@ -69,9 +69,11 @@ describe('Simple <Table/>', () => {
 
     describe("custom data manager", () => {
         const dataManager = {
-            getItemCount: () => 2,
-            getFilterOptions: () => [[]],
-            getVisibleRows: () => [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+            getData: () => ({
+                itemCount: 2,
+                filterOptions: [[]],
+                visibleRows: [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+            })
         };
         let testTableWithCustomDataManager = (
             <Table dataManager={dataManager}>

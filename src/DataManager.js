@@ -112,20 +112,25 @@ class DataManager {
             }));
     }
 
-    getItemCount() {
-        return this.itemCount;
-    }
-
-    getFilterOptions() {
-        return this.uniqueValues;
-    }
-
     getVisibleRows({selectedFilters, sortColumn, sortOrder, itemsPerPage, activePage, searchText}) {
         let sortedAndFilteredRowIndexes = this.sortedRowIndexes(sortColumn, sortOrder)
                 .filter(rowIndex => this.doesRowMatchFilters(rowIndex, selectedFilters))
                 .filter(rowIndex => this.doesRowMatchSearch(rowIndex, searchText));
 
         return this.paginatedRows(sortedAndFilteredRowIndexes, activePage, itemsPerPage);
+    }
+
+    getData(state, onLoad) {
+        /*
+         * Only required public member of DataManager.
+         * It doesn't have to return data: for an async data manager, it can call the onLoad callback provided in the
+         * second argument when data is ready.
+         */
+        return {
+            visibleRows: this.getVisibleRows(state),
+            itemCount: this.itemCount,
+            filterOptions: this.uniqueValues
+        };
     }
 }
 
