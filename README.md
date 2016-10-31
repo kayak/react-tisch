@@ -14,8 +14,8 @@ can use custom react components as the table's cells!
 See the [demo](http://kayak.github.io/react-tisch/examples/index.html).
 
 ```js
-import {Table, Column} from ReactTisch;
-import {Glyphicon, Label} from ReactBootstrap;
+import {Table, Column} from "react-tisch";
+import {Glyphicon, Label} from "react-bootstrap";
 
 const sampleData = [
   {
