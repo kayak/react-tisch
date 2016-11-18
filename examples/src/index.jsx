@@ -11,7 +11,7 @@ const Samples = {Sample1, Sample2};
 const sampleList = Object.keys(Samples).map((sampleName, i) => {
     let Sample = Samples[sampleName];
     return (<div key={i}>
-        <h2>{sampleName}</h2>
+        <h2><a href={'#' + sampleName}>{sampleName}</a></h2>
         <Sample/>
     </div>);
 });

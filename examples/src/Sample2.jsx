@@ -1,19 +1,36 @@
 import React from "react";
-import {Table, Column} from "react-tisch";
+import {
+    Table,
+    Column
+} from "react-tisch";
 
 
-const dataManager = {
-    getData: function (state, onLoad) {
+class DataManager {
+    /*
+     * Very basic example for implementing your own data manager
+     */
+
+    constructor() {
+        this.data = [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}];
+    }
+
+    getData(state, onLoad) {
+        /*
+         * Refer to the documentation for full details on what the state object contains, or inspect the variable
+         * passed here.
+         */
         return {
-            itemCount: 2,
+            itemCount: this.data.length,
             filterOptions: [[]],
-            visibleRows: [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
+            visibleRows: this.data
         };
     }
-};
+}
+
+const dataManager = new DataManager();
 
 const Sample2 = () =>
-    <Table dataManager={dataManager}>
+    <Table getData={dataManager.getData.bind(dataManager)}>
         <Column value={row => row.name}>Name</Column>
     </Table>;
 

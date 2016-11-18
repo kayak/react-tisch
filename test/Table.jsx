@@ -76,7 +76,7 @@ describe('Simple <Table/>', () => {
             })
         };
         let testTableWithCustomDataManager = (
-            <Table dataManager={dataManager}>
+            <Table getData={dataManager.getData}>
                 <Column value={row => row.name}>Name</Column>
             </Table>
         );
