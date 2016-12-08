@@ -19,7 +19,8 @@ class TableController extends React.Component {
     static propTypes = {
         data: React.PropTypes.array,
         dataManager: React.PropTypes.object,
-        children: React.PropTypes.node.isRequired
+        children: React.PropTypes.node.isRequired,
+        initialState: React.PropTypes.object
     };
 
     updateStateFromProps(props) {
@@ -34,6 +35,10 @@ class TableController extends React.Component {
     }
 
     componentWillMount() {
+        if (this.props.initialState) {
+            this.setState(this.props.initialState);
+        }
+
         this.updateStateFromProps(this.props);
     }
 

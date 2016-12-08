@@ -54,8 +54,8 @@ const Tags = function ({tags}) {
 
 describe('Simple <Table/>', () => {
 
-    const testTable =
-        <Table data={sampleData}>
+    const TestTable = (props) =>
+        <Table data={sampleData} {...props}>
             <Column value={row => row.name}>Name</Column>
             <Column value={row => row.age}>Age</Column>
             <Column filter value={EyeColor} rawValue={row => row.eyeColor}>Eye color</Column>
@@ -90,27 +90,27 @@ describe('Simple <Table/>', () => {
     });
 
     it("contains table element", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         expect(wrapper.find('table')).to.have.length(1);
     });
 
     it("has four columns", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         expect(wrapper.find(Column)).to.have.length(4);
     });
 
     it("has three rows", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         expect(wrapper.find(Body.Row)).to.have.length(3);
     });
 
     it("has twelve cells", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         expect(wrapper.find(Body.Cell)).to.have.length(12);
     });
 
     describe("default order", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
 
         it("has 1st column sorted", function () {
             const firstColumn = getColumnValues(wrapper, 0);
@@ -121,10 +121,16 @@ describe('Simple <Table/>', () => {
             const secondColumn = getColumnValues(wrapper, 1);
             expect(secondColumn).to.eql(["22", "33", "31"]);
         });
+
+        it("can override default sort order with initalState", function() {
+            const wrapper = mount(<TestTable initialState={{sortColumn: 1}}/>);
+            const secondColumn = getColumnValues(wrapper, 1);
+            expect(secondColumn).to.eql(["22", "31", "33"]);
+        });
     });
 
     describe("1st column reverse sort", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         wrapper.find(Column).at(0).simulate('click');
 
         it("has the 1st column reverse sorted", function () {
@@ -139,7 +145,7 @@ describe('Simple <Table/>', () => {
     });
 
     describe("2nd column sort", function () {
-        const wrapper = mount(testTable);
+        const wrapper = mount(<TestTable/>);
         wrapper.find(Column).at(1).simulate('click');
 
         it("has the 1st column not sorted", function () {
