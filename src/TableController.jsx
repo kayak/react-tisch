@@ -18,19 +18,15 @@ class TableController extends React.Component {
 
     static propTypes = {
         data: React.PropTypes.array,
-        getData: React.PropTypes.func,
+        dataManager: React.PropTypes.object,
         children: React.PropTypes.node.isRequired
     };
 
     updateStateFromProps(props) {
-        if (props.getData) {
-            // Allow passing a custom data manager for e.g. custom filtering or server-side data fetching
-            this.setState({getData: props.getData});
-        } else if (props.data || !this.state.getData) {
-            let columns = React.Children.toArray(this.props.children),
-                dataManager = new DataManager(props.data || [], columns);
-            this.setState({getData: dataManager.getData.bind(dataManager)});
-        }
+        let dataManager = props.dataManager || (new DataManager(props.data || [])),
+            columns = React.Children.toArray(this.props.children);
+        dataManager.initialize(columns, this.onDataUpdate.bind(this));
+        this.setState({dataManager});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -87,7 +83,7 @@ class TableController extends React.Component {
 
     render() {
         let data = this.state.forcedRedrawData ||
-            this.state.getData(this.state, this.onDataUpdate.bind(this));
+            this.state.dataManager.getData(this.state);
 
 
         return (

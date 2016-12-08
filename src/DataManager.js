@@ -23,15 +23,33 @@ function getRawCellValue(column, row) {
 
 
 class DataManager {
-    constructor(data, columns) {
-        // Pre-compute value representations that are convenient for sorting and filtering
+    constructor(data) {
+        this.data = data;
+        this.columns = null;
+        this.onNewDataReceived = null;
+    }
 
-        let valuesByColumn = columns.map(() => []),
-            uniqueValues = columns.map(() => Object()),
+    initialize(columns, onNewDataReceived) {
+        /*
+        This method is called by react-tisch once the table is initialized.
+        columns is a list of react element of type Column
+         */
+        this.columns = columns;
+        this.onNewDataReceived = onNewDataReceived;
+        this.precomputeDerivedData();
+    }
+
+    precomputeDerivedData() {
+        // Pre-compute value representations that are convenient for sorting and filtering
+        if (!this.columns || !this.data)
+            return;
+
+        let valuesByColumn = this.columns.map(() => []),
+            uniqueValues = this.columns.map(() => Object()),
             valuesByRow;
 
-        valuesByRow = data.map(function (row, i) {
-            return columns.map(function (column, j) {
+        valuesByRow = this.data.map(function (row, i) {
+            return this.columns.map(function (column, j) {
                 let value = getRawCellValue(column, row);
                 valuesByColumn[j].push({
                     rowIndex: i,
@@ -48,8 +66,7 @@ class DataManager {
 
         uniqueValues = uniqueValues.map(values => Object.keys(values));
 
-        this.data = data;
-        this.itemCount = data.length;
+        this.itemCount = this.data.length;
         this.valuesByColumn = valuesByColumn;
         this.valuesByRow = valuesByRow;
         this.uniqueValues = uniqueValues;
@@ -120,11 +137,11 @@ class DataManager {
         return this.paginatedRows(sortedAndFilteredRowIndexes, activePage, itemsPerPage);
     }
 
-    getData(state, onLoad) {
+    getData(state) {
         /*
-         * Only required public member of DataManager.
-         * It doesn't have to return data: for an async data manager, it can call the onLoad callback provided in the
-         * second argument when data is ready.
+         * Required public member of DataManager.
+         * It doesn't have to return data: for an async data manager, it can call the onNewDataReceived callback
+         * passed in the `initialize` method.
          */
         return {
             visibleRows: this.getVisibleRows(state),

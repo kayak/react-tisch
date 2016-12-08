@@ -69,6 +69,7 @@ describe('Simple <Table/>', () => {
 
     describe("custom data manager", () => {
         const dataManager = {
+            initialize: () => {},
             getData: () => ({
                 itemCount: 2,
                 filterOptions: [[]],
@@ -76,7 +77,7 @@ describe('Simple <Table/>', () => {
             })
         };
         let testTableWithCustomDataManager = (
-            <Table getData={dataManager.getData}>
+            <Table dataManager={dataManager}>
                 <Column value={row => row.name}>Name</Column>
             </Table>
         );

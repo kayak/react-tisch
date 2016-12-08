@@ -14,7 +14,10 @@ class DataManager {
         this.data = [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}];
     }
 
-    getData(state, onLoad) {
+    initialize(columns, onNewDataReceived) {
+    }
+
+    getData(state) {
         /*
          * Refer to the documentation for full details on what the state object contains, or inspect the variable
          * passed here.
@@ -30,7 +33,7 @@ class DataManager {
 const dataManager = new DataManager();
 
 const Sample2 = () =>
-    <Table getData={dataManager.getData.bind(dataManager)}>
+    <Table dataManager={dataManager}>
         <Column value={row => row.name}>Name</Column>
     </Table>;
 
