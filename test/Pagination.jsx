@@ -80,4 +80,14 @@ describe("Multi page <Table/>", () => {
         expect(text).to.equal("Showing 1 to 10 of 300 entries");
     });
 
+    it("shows correct entry count with less items than items per page", function() {
+        const testTable =
+            <Table data={longSampleData.slice(0, 8)}>
+                <Column value={row => row}>Id</Column>
+            </Table>;
+        const wrapper = mount(testTable);
+        const text = wrapper.find('.shown-entries').text();
+        expect(text).to.equal("Showing 8 of 8 entries");
+    });
+
 });

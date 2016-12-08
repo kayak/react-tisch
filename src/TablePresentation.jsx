@@ -69,10 +69,19 @@ class TablePresentation extends React.Component {
         return React.Children.map(children, this.filter.bind(this));
     }
 
+    shownEntriesText() {
+        let {itemsPerPage, itemCount, activePage} = this.props;
+        if (itemCount <= itemsPerPage) {
+            return `Showing ${itemCount} of ${itemCount} entries`;
+        }
+
+        return `Showing ${(activePage - 1) * itemsPerPage + 1} to ${activePage * itemsPerPage} of ${itemCount} entries`;
+    }
+
     render() {
         let filters = this.filters(),
             {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows,
-            itemsPerPage, itemCount, selectedRows} = this.props,
+            selectedRows} = this.props,
             columns = React.Children.toArray(this.props.children);
 
         return (
@@ -128,7 +137,7 @@ class TablePresentation extends React.Component {
 
                 <Row>
                     <Col md={6} className="shown-entries">
-                        Showing {(activePage - 1) * itemsPerPage + 1} to {activePage * itemsPerPage} of {itemCount} entries
+                        {this.shownEntriesText()}
                     </Col>
                     <Col md={6}>
                         <div className="pull-right">
