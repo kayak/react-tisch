@@ -11,7 +11,7 @@ can use custom react components as the table's cells!
 
 ## Example
 
-See the [demo](/docs/guides/simple_table.md#demo)
+See the [demo](https://kayak.gitbooks.io/react-tisch/content/docs/guides/simple_table.html#demo)
 
 ```js
 import {Table, Column} from "react-tisch";
@@ -47,7 +47,7 @@ ReactDOM.render(
 
 ## Documentation
 
-See the [documentation](/docs/guides/simple_table.md) on gitbook.
+See the [documentation](https://kayak.gitbooks.io/react-tisch/content/) on gitbook.
 
 ## Development
 

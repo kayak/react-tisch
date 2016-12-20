@@ -46,5 +46,5 @@ const dataManager = new DataManager();
 
 ## Demo
 
-<iframe src="https://kayak.github.io/react-tisch/demo/index.html#Sample2">
+<iframe src="../../demo/index.html#Sample2">
 </iframe>
