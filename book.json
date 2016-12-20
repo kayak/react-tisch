@@ -1,0 +1,11 @@
+{
+    "title": "React Tisch",
+    "description": "Table component for React and Bootstrap",
+    "structure": {
+        "summary": "docs/README.md"
+    },
+    "plugins": [
+        "prism@2.0.0",
+        "-highlight"
+    ]
+}
