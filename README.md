@@ -11,11 +11,11 @@ can use custom react components as the table's cells!
 
 ## Example
 
-See the [demo](http://kayak.github.io/react-tisch/examples/index.html).
+See the [demo](/docs/guides/simple_table.md#demo)
 
 ```js
-import {Table, Column} from ReactTisch;
-import {Glyphicon, Label} from ReactBootstrap;
+import {Table, Column} from "react-tisch";
+import {Glyphicon, Label} from "react-bootstrap";
 
 const sampleData = [
   {
@@ -44,6 +44,10 @@ ReactDOM.render(
     document.getElementById('example')
 );
 ```
+
+## Documentation
+
+See the [documentation](/docs/guides/simple_table.md) on gitbook.
 
 ## Development
 

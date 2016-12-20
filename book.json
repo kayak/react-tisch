@@ -1,0 +1,9 @@
+{
+    "title": "React Tisch",
+    "description": "Table component for React and Bootstrap",
+    "plugins": [
+        "prism@2.0.0",
+        "-highlight",
+        "autosize-iframe"
+    ]
+}
