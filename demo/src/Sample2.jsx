@@ -15,12 +15,16 @@ class DataManager {
     }
 
     initialize(columns, onNewDataReceived) {
+        /*
+         * Called when the table is mounted
+         */
     }
 
     getData(state) {
         /*
-         * Refer to the documentation for full details on what the state object contains, or inspect the variable
-         * passed here.
+         * Called when the table state changes.
+         * For async data fetching, return null and call onNewDataReceived
+         * when the new data is ready
          */
         return {
             itemCount: this.data.length,

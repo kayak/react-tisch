@@ -7,7 +7,7 @@
     "prepublish": "npm run build",
     "build": "webpack --config webpack.config.js",
     "build:watch": "webpack --config webpack.config.js --watch --progress",
-    "build:doc": "webpack --config webpack.config-doc.js --watch --progress",
+    "build:demo": "webpack --config webpack.config-demo.js --watch --progress",
     "test": "mocha-webpack",
     "test:debug": "node $NODE_DEBUG_OPTION --expose_debug_as=v8debug ./node_modules/mocha-webpack/bin/mocha-webpack",
     "test:watch": "mocha-webpack --watch",

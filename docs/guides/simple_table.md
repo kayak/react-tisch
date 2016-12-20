@@ -45,3 +45,8 @@ import {Table, Column} from ReactTisch;
     <Column value={Tags}>Tags</Column>
 </Table>
 ```
+
+## Demo
+
+<iframe src="https://kayak.github.io/react-tisch/demo/index.html#Sample1">
+</iframe>

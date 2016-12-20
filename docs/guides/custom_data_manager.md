@@ -1,26 +1,50 @@
 # Custom data manager
 
-You can define your own data manager or extend the existing one to change any of the default behaviour. Instead of passing a data prop, simply pass a dataManager prop. It needs to have three methods: getItemCount, getFilterOptions and getVisibleRows. Refer to the documentation for more details.
+You can define your own data manager or extend the existing one to change
+any of the default behaviour. Instead of passing a data prop, simply pass
+a dataManager prop. It needs to have two methods: `initialize` and
+`getData`.
 
 ```jsx
 import {Table, Column} from "react-tisch";
 
 class DataManager {
-    // Note: visibleRows should take into account the state (searchText, selectedFilters, etc). Refer to the
-    // documentation for more details.
-    getData: (state) => ({
-        itemCount: 2,
-        filterOptions: [[]],
-        visibleRows: [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}]
-    })
+    /*
+     * Very basic example for implementing your own data manager
+     */
+
+    constructor() {
+        this.data = [{index: 0, data: {name: 'Joe'}}, {index: 1, data: {name: 'Mike'}}];
+    }
+
+    initialize(columns, onNewDataReceived) {
+        /*
+         * Called when the table is mounted
+         */
+    }
+
+    getData(state) {
+        /*
+         * Called when the table state changes.
+         * For async data fetching, return null and call onNewDataReceived
+         * when the new data is ready
+         */
+        return {
+            itemCount: this.data.length,
+            filterOptions: [[]],
+            visibleRows: this.data
+        };
+    }
 }
 
 const dataManager = new DataManager();
 
-<Table getData={dataManager.getData}>
+<Table dataManager={dataManager}>
     <Column value={row => row.name}>Name</Column>
 </Table>
 ```
 
-Note that if `getData` was a regular class method rather than a fat arrow, you would need to bind it with
-`dataManager.getData.bind(dataManager)`. More on binding [here](http://www.2ality.com/2013/06/auto-binding.html).
+## Demo
+
+<iframe src="https://kayak.github.io/react-tisch/demo/index.html#Sample2">
+</iframe>

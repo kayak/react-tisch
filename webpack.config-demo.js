@@ -1,14 +1,14 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var ROOT_DIR = path.resolve(__dirname, 'examples');
+var ROOT_DIR = path.resolve(__dirname, 'demo');
 
 var config = {
     devtool: 'source-map',
     entry: ROOT_DIR + '/src/index.jsx',
     output: {
         path: ROOT_DIR,
-        filename: 'sampleApp.js',
+        filename: 'demo.js',
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
