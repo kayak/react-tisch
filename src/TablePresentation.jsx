@@ -81,7 +81,7 @@ class TablePresentation extends React.Component {
     render() {
         let filters = this.filters(),
             {pageCount, activePage, onPageSelect, searchText, sortColumn, sortOrder, onSort, visibleRows,
-            selectedRows} = this.props,
+            selectedRows, itemsPerPage} = this.props,
             columns = React.Children.toArray(this.props.children);
 
         return (
@@ -89,9 +89,12 @@ class TablePresentation extends React.Component {
                 <Row>
                     <Col md={6}>
                         Show{' '}
-                        <FormControl componentClass="select" placeholder="select" defaultValue="25"
-                                     className="input-sm select-entry-count"
-                                     onChange={this.onItemsPerPageSelect.bind(this)}>
+                        <FormControl
+                            className="input-sm select-entry-count"
+                            componentClass="select"
+                            onChange={this.onItemsPerPageSelect.bind(this)}
+                            placeholder="select"
+                            value={itemsPerPage}>
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -103,7 +106,6 @@ class TablePresentation extends React.Component {
                         <div className="pull-right">
                             Search:{' '}
                             <FormControl
-
                                 type="text"
                                 value={searchText}
                                 placeholder=""
@@ -157,7 +159,5 @@ class TablePresentation extends React.Component {
         );
     }
 }
-
-
 
 export default TablePresentation;
