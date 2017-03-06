@@ -1,4 +1,5 @@
 import React from "react";
+import {Grid} from "react-bootstrap";
 import {
     Table,
     Column
@@ -37,8 +38,10 @@ class DataManager {
 const dataManager = new DataManager();
 
 const Sample2 = () =>
-    <Table dataManager={dataManager}>
-        <Column value={row => row.name}>Name</Column>
-    </Table>;
+    <Grid>
+        <Table dataManager={dataManager}>
+            <Column value={row => row.name}>Name</Column>
+        </Table>
+    </Grid>;
 
 export default Sample2;

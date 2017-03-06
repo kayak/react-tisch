@@ -20,7 +20,7 @@ const sampleData = [
 One of react-tisch main strengths is that you can use react components in the table's cells.
 
 ```jsx
-import {Glyphicon, Label} from ReactBootstrap;
+import {Glyphicon, Label} from "react-bootstrap";
 
 const EyeColor = function ({eyeColor}) {
     return <Glyphicon glyph="eye-open" style={{color: eyeColor}}/>
@@ -34,16 +34,19 @@ const Tags = function ({tags}) {
 
 ## 3. Table definition
 
-To define the react-tisch table, you need to render the Table component with Column components as immediate children.The Column component should contain the column title (which can also be a react component), and need at least to have the prop "value", which is a function taking the row as argument and returning the cell value.
+To define the react-tisch table, you need to render the Table component with Column components as immediate children inside a React-Bootstrap <Grid> container. The Column component should contain the column title (which can also be a react component), and need at least to have the prop "value", which is a function taking the row as argument and returning the cell value.
 
 ```jsx
-import {Table, Column} from ReactTisch;
+import {Grid} from "react-bootstrap";
+import {Table, Column} from "react-tisch";
 
-<Table data={sampleData}>
-    <Column value={row => row.name}>Name</Column>
-    <Column filter value={EyeColor} rawValue={row => row.eyeColor}>Eye color</Column>
-    <Column value={Tags}>Tags</Column>
-</Table>
+<Grid>
+    <Table data={sampleData}>
+        <Column value={row => row.name}>Name</Column>
+        <Column filter value={EyeColor} rawValue={row => row.eyeColor}>Eye color</Column>
+        <Column value={Tags}>Tags</Column>
+    </Table>
+</Grid>
 ```
 
 ## Demo

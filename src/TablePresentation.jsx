@@ -1,6 +1,5 @@
 import React from "react";
-import {Table, Pagination, FormControl, Col, Row, Grid} from "react-bootstrap";
-
+import {Table, Pagination, FormControl, Col, Row} from "react-bootstrap";
 import Filter from "./Filter";
 import TableHeader from "./TableHeader";
 import Body from "./Body";
@@ -85,7 +84,7 @@ class TablePresentation extends React.Component {
             columns = React.Children.toArray(this.props.children);
 
         return (
-            <Grid className="form-inline">
+            <div className="form-inline">
                 <Row>
                     <Col md={6}>
                         Show{' '}
@@ -155,7 +154,7 @@ class TablePresentation extends React.Component {
                         </div>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

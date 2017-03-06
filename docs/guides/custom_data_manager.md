@@ -6,6 +6,7 @@ a dataManager prop. It needs to have two methods: `initialize` and
 `getData`.
 
 ```jsx
+import {Grid} from "react-bootstrap";
 import {Table, Column} from "react-tisch";
 
 class DataManager {
@@ -39,9 +40,11 @@ class DataManager {
 
 const dataManager = new DataManager();
 
-<Table dataManager={dataManager}>
-    <Column value={row => row.name}>Name</Column>
-</Table>
+<Grid>
+    <Table dataManager={dataManager}>
+        <Column value={row => row.name}>Name</Column>
+    </Table>
+</Grid>
 ```
 
 ## Demo
